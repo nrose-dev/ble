@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" style="background: #27262f;">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="msapplication-TileColor" content="#2196f3">
+    <meta name="msapplication-config" content="browserconfig.xml">
+    <meta name="theme-color" content="#2196f3">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="msapplication-starturl" content="./">
+    <meta name="description" content="Progressive Web Application for serial communication with your own Bluetooth Low Energy (Smart) devices">
+
+    <title>US Battery BLE Command</title>
+
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/usbattfavicon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/usbattfavicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/usbattfavicon.png">
+
+    <!--<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
+    <link rel="shortcut icon" href="icons/favicon.ico">-->
+
+    <link rel="shortcut icon" href="icons/usbattfavicon.png">
+    <!--<link rel="shortcut icon" href="https://www.usbattery.com/wp-content/uploads/2018/09/header-logo-ret-300x149.png">
+    <link rel="mask-icon" href="icons/safari-pinned-tab.svg" color="#2196f3">-->
+
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="css/normalize.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+
+</head>
+
+<body style="max-width: 680px;margin: auto;border-radius: 15px;">
+
+    <div class="app">
+
+        <div class="toolbar">
+            <!--<a href=# onclick="loadSend('displayvitals'); ">Display Pack Vitals</a>-->
+            <div class="tooltip">
+                <img id="vitalsButton" onclick="loadSend('displayvitals'); " style="display:none; opacity:0.3; height:30px; width:30px;margin:0 10px 0 10px;" src="icons/heart.png">
+
+                <div id="vittip" class="bottomRight">
+                    <p>Display/Remove Pack Vitals
+                        <br>
+                    </p><i></i></div>
+            </div>
+
+            <ul id="com-menu" style="display:none; flex-grow: 1; margin-left: 5px; margin-right: 5px;" class="nav site-nav">
+
+
+
+                <li class=flyout>
+
+                    <a href=#>Select Battery Command</a>
+
+                    <!-- Flyout -->
+                    <ul class="flyout-content nav stacked">
+
+                        <li class="flyout-alt">
+                            <a href=#>Setup Commands</a>
+                            <ul class="flyout-content nav stacked stackcom">
+                                <li><a href=# onclick="loadSend('AT+NAME');">AT+NAME [BLE NAME+UPID]</a></li>
+                                <li><a href=# onclick="loadSend('AT+POWE');">AT-POWE [0-9] BLE Radio Power</a></li>
+                                <li><a href=# onclick="loadSend('BlinkButton');">BlinkButton [ON] [OFF]</a></li>
+                                <li><a href=# onclick="loadSend('BlinkLED');">BlinkLED [ON] [OFF]</a></li>
+                                <li><a href=# onclick="loadSend('ChangeLED');">ChangeLED [Hex]</a></li>
+                                <li><a href=# onclick="loadSend('ReadEvent');">ReadEvent [Event Number]</a></li>
+                                <!--<li><a href=# onclick="loadSend('?SetBtnCol');">SetBtnCol [RGB COLOR]</a></li>-->
+                                <li><a href=# onclick="loadSend('SetLongPress');">SetLongPress [# Seconds]</a></li>
+                                <li><a href=# onclick="loadSend('SetMuteTime');">SetMuteTime [# Seconds]</a></li>
+                                <li><a href=# onclick="loadSend('SetPISD');">SetPISD [Pack In Service Date Unix Epoch]</a></li>
+                                <li><a href=# onclick="loadSend('WriteEvent');">WriteEvent [Code] [Reason] [Parm]</a></li>
+                                <li><a href=# onclick="loadSend('WriteUPID');">WriteUPID [Unique Pack ID]</a></li>
+                            </ul>
+                        </li>
+                        <li class="flyout-alt">
+                            <a href=#>Operational Commands</a>
+                            <ul class="flyout-content nav stacked stackcom">
+                                <li><a href=# onclick="loadSend('CalibrateVoltages');">Calibrate Cell Voltages</a></li>
+                                <li><a href=# onclick="loadSend('CalibrateCurrent');">Calibrate Current</a></li>
+                                <li><a href=# onclick="loadSend('Reboot');">Reboot</a></li>
+                                <li><a href=# onclick="loadSend('Shutdown');">Shutdown</a></li>
+                            </ul>
+                        </li>
+                        <li class="flyout-alt">
+                            <a href=#>Read Current Setting</a>
+                            <ul class="flyout-content nav stacked stackcom">
+                                <li><a href=# onclick="loadSend('AT+NAME?');">NAME+UPID</a></li>
+                                <li><a href=# onclick="loadSend('AT+POWE?');">BLE Radio Power</a></li>
+                                <li><a href=# onclick="loadSend('celltemps F');">Cell Temperatures in Fahrenheit</a></li>
+                                <li><a href=# onclick="loadSend('celltemps');">Cell Temperatures in Celcius</a></li>
+                                <li><a href=# onclick="loadSend('cellvoltages');">Cell Voltages</a></li>
+                                <li><a href=# onclick="loadSend('GetPISD');">GetPISD [Pack In Service Date Unix Epoch]</a></li>
+                                <li><a href=# onclick="loadSend('GetFaults');">GetFaults</a></li>
+                            </ul>
+                        </li>
+                        <li class="flyout-alt">
+                            <a href=#>Repeat Data Acquisition every second</a>
+                            <ul class="flyout-content nav stacked stackcom">
+                                <li><a href=# onclick="loadSend('celltemps S F');">Cell Temperatures in Fahrenheit</a></li>
+                                <li><a href=# onclick="loadSend('celltemps S');">Cell Temperatures in Celcius</a></li>
+                                <li><a href=# onclick="loadSend('cellvoltages S');">Cell Voltages</a></li>
+                                <li><a href=# onclick="loadSend('displayvitals S');">Display Pack Vitals</a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </li>
+            </ul>
+
+            <img id="logoicon" style="height:30px; width:45px;margin:0 10px 0 10px;" src="https://www.usbattery.com/wp-content/uploads/2018/09/header-logo-ret-300x149.png">
+            <div id="device-name"></div>
+
+            <div id="co-name" class="name"> US BATTERY</div>
+
+            <div class="buttons">
+
+                <button id="connect" style="margin-right: 5px;color: rgba(0, 120, 35, 1)" type="button" aria-label="Connect">
+                    <i class="material-icons">bluetooth_connected</i>
+                </button>
+
+                <button id="disconnect" style="display:none; color: rgba(120, 35, 35, 1)" type="button" aria-label="Disconnect">
+                    <i class="material-icons">bluetooth_disabled</i>
+                </button>
+
+            </div>
+
+        </div>
+
+        <div id="terminal" class="terminal"></div>
+
+        <div id="vitals" style="display:none; font-family: DMSans">
+
+            <table style="margin-left:auto; margin-right:auto;height: 321px; border-color: black; background-color: #0527ba; width: 600px;" border="black">
+                <tbody>
+                    <tr style="height: 200px;">
+                        <td style="width: 250px; text-align: center; height: 200px;">
+
+                            <h4 style="text-align: center;">&nbsp;</h4>
+                            <h2 style="text-align: center;"><span style="color: #ffffff;"><strong>State of Charge</strong></span></h2>
+
+
+                            <h1><span id="SOC" style="color: #ffffff;"><strong>95%</strong></span></h1>
+
+                        </td>
+                        <td style="width: 250px; height: 200px; text-align: center;">
+                            <h4 style="text-align: center;">&nbsp;</h4>
+
+                            <h2 style="text-align: center;"><span style="color: #ffffff;"><strong>Cell Temperature</strong></span></h2>
+                            <p>&nbsp;</p>
+                            <h2><span id="tempStates" style="color: #ffffff;"><strong>32C 31C 33C 34C</strong></span></h2>
+                            <h3 style="text-align: center;">&nbsp;</h3>
+
+                        </td>
+                    </tr>
+                    <tr style="height: 200px;">
+                        <td style="width: 250px; height: 200px; text-align: center;">
+                            <h2 style="text-align: center;">&nbsp;</h2>
+                            <h2><span style="color: #ffffff;"><strong>Current Flow</strong></span></h2>
+                            <p>&nbsp;</p>
+                            <h2><span id="currentState" style="color: #ffffff;"><strong>25 Amp Seconds&nbsp;</strong></span></h2>
+                            <p>&nbsp;</p>
+                            <p><span id="chargeState" style="color: #a24;"><strong>Discharge</strong></span></p>
+                        </td>
+                        <td style="width: 250px; height: 200px; text-align: center;">
+                            <h2 style="text-align: center;">&nbsp;</h2>
+                            <h2><strong><span style="color: #ffffff;">Cell Voltage</span></strong></h2>
+                            <p>&nbsp;</p>
+                            <h2><strong><span id="cellVolts" style="color: #ffffff;">3.5V 3.3V 3.0V 3.4V</span></strong></h2>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <h1 style="text-align: center; font-weight: 300; font-size: 25px;">Pack In Service Date 01/01/2022</h1>
+
+        </div>
+
+        <form style="display:none" id="send-form" class="send-form">
+
+            <input id="input" type="text" aria-label="Input" autocomplete="off" placeholder="Type a Battery Command..">
+
+            <button type="submit" aria-label="Send">
+                <i class="material-icons">send</i>
+            </button>
+
+        </form>
+
+    </div>
+<!--
+    <div class="tooltip">
+        <img id="vtb" onclick="loadSend('displayvitals'); " style="opacity:0.3; height:30px; width:30px;margin:0 10px 0 10px;" src="icons/heart.png">
+
+        <div id="vtest" class="top">
+            <p>Display/Remove Pack Vitals
+                <br>
+            </p><i></i></div>
+    </div>-->
+
+    <script src="js/BluetoothTerminal.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/companion.js" data-service-worker="sw.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,501 @@
+*:focus {
+  outline: none; }
+
+html, body, .app {
+  height: 100%;
+  max-height: 100%;
+  min-height: 100%; }
+
+body {
+  background: #BBBBBB;
+  color: rgba(0, 0, 0, 0.87);
+  font-family: 'Roboto Mono', monospace;
+  font-size: 18px;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+
+.app {
+  display: flex;
+  flex-direction: column; }
+
+button {
+  background: none;
+  border: none;
+  color: rgba(0, 0, 0, 0.87);
+  cursor: pointer;
+  margin: 0;
+  padding: 12px;
+  transition: background 0.3s, color 0.3s;
+  user-select: none; }
+  button:active {
+    background: rgba(0, 0, 0, 0.12);
+    color: rgba(0, 0, 0, 0.54); }
+  button i.material-icons {
+    vertical-align: middle; }
+
+.toolbar {
+  align-items: center;
+  display: flex;
+  flex-shrink: 0; }
+  .toolbar .name {
+    font-weight: bold;
+    text-align:center;
+    flex-grow: 1;
+    padding: 0 8px;
+    /*user-select: none; */
+    }
+  .toolbar .buttons {
+    flex-shrink: 0; }
+    .toolbar .buttons button {
+      float: left; }
+
+.terminal {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-width: 1px 0;
+  flex-grow: 1;
+  overflow: auto;
+  border-radius:14px;
+  background: #234567;
+    margin :4px;
+  padding: 4px; }
+  .terminal div {
+    color: #e9e9e9;
+    line-height: 1;
+    padding: 4px 8px;
+    word-break: break-word; }
+    .terminal div.out {
+      font-weight:bold;
+      color: #ff9999; }
+    .terminal div.in {
+      color: #d0d040; }
+
+.send-form {
+  display: flex;
+  margin-left:5px;
+  margin-right:5px;
+  border-radius:14px;
+  background-color: #0E34ba;
+  flex-shrink: 0; }
+  .send-form input {
+    background: none;
+    text-align: center;
+    border: none;
+    color: rgba(250, 250, 250, 0.87);
+    flex-grow: 1;
+    font: normal 16px/1.5 'Roboto Mono', monospace;
+    padding: 0 8px; }
+    .send-form input::placeholder {
+      color: rgba(250, 250, 250, 0.54); }
+  .send-form button {
+    flex-shrink: 0;
+    color: rgba(250, 250, 250, 0.54);
+}
+
+/*------------------------------------*\
+    $HOUSEKEEPING
+\*------------------------------------*/
+*{ margin:0; padding:0; }
+html{
+    /*padding:5%;*/
+    font:1em/1.5 Georgia, serif;
+    overflow-y:scroll;
+}
+ul{
+    /*margin-bottom:1.5em;*/
+    margin-left:1.5em;
+    
+}
+a{
+    text-decoration:none;
+}
+
+
+
+
+
+/*------------------------------------*\
+    $NAV
+\*------------------------------------*/
+/**
+ * Throw any `ul` or `ol` into horizontal mode, as per csswizardry.com/2011/09/the-nav-abstraction.
+   <ul class=nav>
+       <li><a href=/>Home</a></li>
+       <li><a href=/about>About</a></li>
+       <li><a href=/portfolio>Portfolio</a></li>
+       <li><a href=/contact>Contact</a></li>
+   </ul>
+ */
+.nav{
+    list-style:none;
+    margin-left:0;
+}
+    .nav > li,
+        .nav > li > a{
+            /*display:inline-block;
+           *display:inline;
+            zoom:1;*/
+            border-radius:5px;
+            
+            
+        }
+    
+    /**
+     * Create a vertically stacked nav by extending `.nav` with `.stacked`.
+       <ul class="nav stacked">
+           <li><a href=/>Home</a></li>
+           <li><a href=/about>About</a></li>
+           <li><a href=/portfolio>Portfolio</a></li>
+           <li><a href=/contact>Contact</a></li>
+       </ul>
+     */
+.stackcom > li > a{
+        background-color:#1776dd;
+        
+    }
+    .stacked > li{
+        display:list-item;
+        
+    }
+        .stacked > li > a{
+            display:block;
+            
+    }
+
+
+
+
+
+/*------------------------------------*\
+    $FLYOUT
+\*------------------------------------*/
+/**
+ * Flyouts are pieces of content that fly out of a parent when said parent is hovered.
+ * They typically appear bottom-left of the parent.
+   <div class=flyout>
+       Foo
+       <div class=flyout-content>
+           <h1>Lorem</h1>
+           <p>Ipsum</p>
+       </div>
+   </div>
+ */
+.flyout,
+.flyout-alt{
+    position:relative;
+    
+}
+    .flyout-content{
+        /* Position the flyouts off-screen. This is typically better than `display:none;`. */
+        position:absolute;
+        top:97%;
+        left:-99999px;
+        /**
+         * Even though they are out of document flow, lots of nested flyouts can
+         * eventually force scroll bars to appear as they become taller than the viewport.
+         * We can undo this effect by giving them zero height.
+         */
+        height:0;
+        z-index: 1;
+        overflow:hidden;
+        
+    }
+    
+    /**
+     * Bring the flyouts into view when you hover their parents.
+     * Two different types of flyout; â€˜regularâ€™ (`.flyout`) and â€˜alternativeâ€™ (`.flyout-alt`).
+     */
+    /* Regular flyouts sit all the way from the top, flush left. */
+    .flyout:hover > .flyout-content{
+        left:0;
+    }
+    /* Alternative flyouts sit all the way from the left, flush top. */
+    .flyout-alt:hover > .flyout-content{
+        top:0;
+        left:70%;
+    }
+    .flyout:hover > .flyout-content,
+    .flyout-alt:hover > .flyout-content{
+        /* Give the flyouts their height back once they come into view. */
+        height:auto;
+        overflow:visible;
+    }
+
+
+
+
+
+/*------------------------------------*\
+    $SITE-NAV
+\*------------------------------------*/
+/**
+ * Site nav specific styling.
+ * Extends `.nav{}`
+ */
+.site-nav{
+    font-size:1em;
+    font-family:sans-serif;
+}
+        .site-nav a{
+            line-height:1;
+            padding:1em;
+            background-color:#09f;
+            color:#fff;
+            white-space:nowrap;
+        }
+
+/*--- SITE-NAV FLYOUTS ---*/
+/**
+ * Site nav specific flyouts, extension of `.flyout`.
+ * Set up some styles to apply and persist when we hover things in the site nav.
+ * This allows us to keep parents highlighted as we hover their contained flyouts [1].
+ */
+.site-nav .flyout:hover > a /* [1] */,
+.site-nav .flyout-alt:hover > a /* [1] */,
+.site-nav a:hover{
+    color:#435704;
+    background-color:#BADA55;
+}
+
+/**
+ * Add an indicator to any flyout parents in the site nav to show thereâ€™s a flyout.
+ */
+.site-nav .flyout-alt > a:after{
+    content:" Â»";
+}
+
+/**
+ * Here we set up a load of shared borders on the site-nav specific flyouts.
+ * The code looks a little scattered but it allows us to cleverly share declarations:
+ * We set up a non-existent [1] solid [2] border on all sides of the relevant elements.
+ * We can now also change the style [2] and colour [3] of all borders in one go.
+ * Now we have set up border colours and styles, we need to just turn the desired borders â€˜onâ€™ [4].
+ */
+.site-nav a,
+.site-nav .flyout-content{
+    border:0     /* [1] */
+           solid /* [2] */
+           #fff  /* [3] */;
+}
+.site-nav > li > a{
+    border-left-width:1px; /* [4] */
+}
+/* The first link in the site-nav doesnâ€™t require a border at all. */
+.site-nav > li:first-child > a{
+    border:none;    
+}
+.site-nav .flyout-content{
+    border-width:1px 0 0 1px; /* [4] */
+}
+.site-nav .flyout-content a{
+    border-bottom-width:1px; /* [4] */
+}
+.site-nav .flyout-alt:hover > .flyout-content{
+    /**
+     * To account for the 1px top border on the flyout containers, we need to
+     * bring the flyouts back up by 1px in this special instance.
+     */
+    top:-1px;
+}
+
+/* TOOLTIP*/
+.tooltip {
+    display:inline-block;
+    position:relative;
+    /*border-bottom:1px dotted #666;*/
+    text-align:center;
+    z-index: 2147483599;
+}
+
+.tooltip .top {
+    min-width:130px; 
+    top:-20px;
+    left:50%;
+    transform:translate(-50%, -100%);
+    padding:10px 10px;
+    color:#444444;
+    background-color:#EEEEEE;
+    font-weight:normal;
+    font-size:13px;
+    border-radius:8px;
+    position:absolute;
+    /*z-index:2147483000;*/
+    box-sizing:border-box;
+    box-shadow:0 1px 8px rgba(0,0,0,0.5);
+    visibility:hidden; opacity:0; transition:opacity 0.8s;
+}
+
+.tooltip .topLong {
+    min-width:200px; 
+    top:-20px;
+    left:50%;
+    transform:translate(-50%, -100%);
+    padding:10px 10px;
+    color:#444444;
+    background-color:#EEEEEE;
+    font-weight:normal;
+    font-size:13px;
+    border-radius:8px;
+    position:absolute;
+    box-sizing:border-box;
+    box-shadow:0 1px 8px rgba(0,0,0,0.5);
+    visibility:hidden; opacity:0; transition:opacity 0.8s;
+}
+
+.tooltip:hover .top {
+    visibility:visible; opacity:1;
+}
+
+.tooltip .top i {
+    position:absolute;
+    top:100%;
+    left:50%;
+    margin-left:-12px;
+    width:24px;
+    height:12px;
+    overflow:hidden;
+}
+
+.tooltip .top i::after {
+    content:'';
+    position:absolute;
+    width:12px;
+    height:12px;
+    left:50%;
+    transform:translate(-50%,-50%) rotate(45deg);
+    background-color:#EEEEEE;
+    box-shadow:0 1px 8px rgba(0,0,0,0.5);
+}
+
+.tooltip .bottom {
+    min-width:130px; 
+    top:80px;
+    left:50%;
+    transform:translate(-50%, -100%);
+    padding:10px 10px;
+    color:#444444;
+    background-color:#EEEEEE;
+    font-weight:normal;
+    font-size:13px;
+    border-radius:8px;
+    position:absolute;
+    /*z-index:2147483000;*/
+    box-sizing:border-box;
+    /*box-shadow:0 1px 8px rgba(0,0,0,0.5);*/
+    visibility:hidden; opacity:0; transition:opacity 0.8s;
+}
+
+.tooltip .bottomLong {
+    min-width:180px; 
+}
+
+.tooltip:hover .bottom {
+    visibility:visible; opacity:1;
+}
+
+.tooltip .bottom i {
+    position:absolute;
+    top:-12px;
+    left:50%;
+    margin-left:-12px;
+    width:24px;
+    height:12px;
+    overflow:hidden;
+}
+
+.tooltip .bottom i::after {
+    content:'';
+    position:absolute;
+    width:12px;
+    height:12px;
+    left:0%;
+    transform:translate(50%,50%) rotate(45deg);
+    background-color:#EEEEEE;
+    box-shadow:0 1px 8px rgba(0,0,0,0.5);
+}
+
+.tooltip .bottomRight {
+    min-width:130px; 
+    top:95px;
+    left:50%;
+    transform:translate(-10%, -100%);
+    padding:10px 10px;
+    color:#444444;
+    background-color:#EEEEEE;
+    font-weight:normal;
+    font-size:13px;
+    border-radius:8px;
+    position:absolute;
+    /*z-index:2147483000;*/
+    box-sizing:border-box;
+    box-shadow:0 1px 8px rgba(0,0,0,0.5);
+    visibility:hidden; opacity:0; transition:opacity 0.8s;
+}
+
+.tooltip:hover .bottomRight {
+    visibility:visible; opacity:1;
+}
+
+.tooltip .bottomRight i {
+    position:absolute;
+    top:-12px;
+    left:50%;
+    margin-left:-12px;
+    width:24px;
+    height:12px;
+    overflow:hidden;
+}
+
+.tooltip .bottomRight i::after {
+    content:'';
+    position:absolute;
+    width:12px;
+    height:12px;
+    left:0%;
+    transform:translate(-50%,50%) rotate(45deg);
+    background-color:#EEEEEE;
+    box-shadow:0 1px 8px rgba(0,0,0,0.5);
+}
+
+.tooltip .bottomLeft {
+    min-width:130px; 
+    top:95px;
+    left:100%;
+    transform:translate(-100%, -100%);
+    padding:10px 10px;
+    color:#444444;
+    background-color:#EEEEEE;
+    font-weight:normal;
+    font-size:13px;
+    border-radius:8px;
+    position:absolute;
+    /*z-index:2147483000;*/
+    box-sizing:border-box;
+    box-shadow:0 1px 8px rgba(0,0,0,0.5);
+    visibility:hidden; opacity:0; transition:opacity 0.8s;
+}
+
+
+.tooltip:hover .bottomLeft {
+    visibility:visible; opacity:1;
+}
+
+.tooltip .bottomLeft i {
+    position:absolute;
+    top:-12px;
+    left:50%;
+    margin-left:-12px;
+    width:24px;
+    height:12px;
+    overflow:hidden;
+}
+
+.tooltip .bottomLeft i::after {
+    content:'';
+    position:absolute;
+    width:12px;
+    height:12px;
+    left:0%;
+    transform:translate(150%,50%) rotate(45deg);
+    background-color:#EEEEEE;
+    box-shadow:0 1px 8px rgba(0,0,0,0.5);
+}
+/* TOOLTIP*/
